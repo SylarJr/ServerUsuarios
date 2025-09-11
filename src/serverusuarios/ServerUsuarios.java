@@ -2,6 +2,7 @@ package serverusuarios;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class ServerUsuarios {
 
         while ((entrada = lectorSocket.readLine()) != null) {
             int op= Integer.parseInt(entrada);
-            escritor.println("Bienvenido al sistema de usuarios");
+            
             try{
                 
                 switch (op) {
@@ -43,20 +44,47 @@ public class ServerUsuarios {
                 
                     case 2:       // caso para registrar se
 
-                    escritor.println("ingrese su nombre de usuario");
-                   
+    escritor.println("Ingrese su nombre de usuario:");
+    String nuevoUser = lectorSocket.readLine();
+
+    escritor.println("ingrese su contraseña:");
+    String nuevoPass = lectorSocket.readLine();
+
+    boolean existe = false;
+    File archivo = new File("usuarios.txt");
+    if (!archivo.exists()) {
+        archivo.createNewFile();
+    }
+
+   
+    BufferedReader br = new BufferedReader(new FileReader(archivo));
+    String linea;
+    while ((linea = br.readLine()) != null) {
+        String[] partes = linea.split(",");
+        if (partes[0].equals(nuevoUser)) {
+            existe = true;
+            break;
+        }
+    }
+    br.close();
+
+    
+    if (!existe) {
+        BufferedWriter bw = new BufferedWriter(new FileWriter(archivo, true));
+        bw.write(nuevoUser + "," + nuevoPass);
+        bw.newLine();
+        bw.close();
+        escritor.println("Su usuario se registro exitosamente .");
+    } else {
+        escritor.println("No se puede poner ese nombre de usuario.");
+    }
 
 
-                    escritor.println("ingrese su contraseña");
-                    
-
-
-
-                        break;
+    break;
 
                     case 3:         // Salir
 
-                         escritor.println("Cerrando conexión...");
+                         
                         cliente.close();
                         socketEspecial.close();
 
