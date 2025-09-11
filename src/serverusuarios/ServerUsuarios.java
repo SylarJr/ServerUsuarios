@@ -39,7 +39,55 @@ public class ServerUsuarios {
                 
                 switch (op) {
                     case 1:       //caso para ingresar a la cuenta
-                        
+                                            
+                         escritor.println("Ingrese su nombre de usuario:");
+    String userLogin = lectorSocket.readLine();
+
+    escritor.println("Ingrese su contraseña:");
+    String passLogin = lectorSocket.readLine();
+
+    boolean encontrado = false;
+    File archivoLogin = new File("usuarios.txt");
+    if (!archivoLogin.exists()) {
+        archivoLogin.createNewFile();
+    }
+
+    BufferedReader brLogin = new BufferedReader(new FileReader(archivoLogin));
+    String lineaLogin;
+    while ((lineaLogin = brLogin.readLine()) != null) {
+        String[] partes = lineaLogin.split(",");
+        if (partes[0].equals(userLogin) && partes[1].equals(passLogin)) {
+            encontrado = true;
+            break;
+        }
+    }
+    brLogin.close();
+
+    if (encontrado) {
+        escritor.println("Pudo iniciar sesion " + userLogin + " Ahora puedes chatear con el servidor, para salir escribe fin");
+       
+
+       
+    
+          while ((entrada = lectorSocket.readLine()) != null) {
+            if (entrada.equalsIgnoreCase("fin")) {
+                escritor.println("Saliendo de la sesión...");
+                break; 
+            }
+
+            
+            System.out.println(entrada); 
+            Mimensaje = teclado.readLine();
+            escritor.println(Mimensaje);
+            
+        }
+    } else {
+        escritor.println("Usuario o contraseña incorrectos.");
+    }
+      
+
+
+
                         break;
                 
                     case 2:       // caso para registrar se
