@@ -16,23 +16,26 @@ public class ServerUsuarios {
 
 
     public static void main(String[] args) throws IOException {
-          Socket salida = new Socket("localhost", 8080);
-        PrintWriter escritor = new PrintWriter(salida.getOutputStream(), true);
-        BufferedReader lector = new BufferedReader(new InputStreamReader(salida.getInputStream()));
+        ServerSocket socketEspecial = new ServerSocket(8080);
+        Socket cliente = socketEspecial.accept();
+
+        PrintWriter escritor = new PrintWriter(cliente.getOutputStream(), true);
+        BufferedReader lectorSocket = new BufferedReader(new InputStreamReader(
+                cliente.getInputStream()));
         BufferedReader teclado = new BufferedReader(new InputStreamReader(System.in));
-        String cadena = teclado.readLine();
-        String mensaje;
+       
+        String entrada;
+        String Mimensaje;
             String [] usario = new String [100];
             String [] contraseña = new String [100];
             List <String> listaUsuarios = new ArrayList<>();
-            
-    
-        
-        while (!cadena.equalsIgnoreCase("fin")) {
-           
-            try{
-                int op = Integer.parseInt(teclado.readLine());
 
+
+        while ((entrada = lectorSocket.readLine()) != null) {
+            int op= Integer.parseInt(entrada);
+            escritor.println("Bienvenido al sistema de usuarios");
+            try{
+                
                 switch (op) {
                     case 1:       //caso para ingresar a la cuenta
                         
@@ -53,6 +56,10 @@ public class ServerUsuarios {
 
                     case 3:         // Salir
 
+                         escritor.println("Cerrando conexión...");
+                        cliente.close();
+                        socketEspecial.close();
+
                         break;
                 }
 
@@ -61,7 +68,7 @@ public class ServerUsuarios {
 
             }
         }
-        salida.close();
+        cliente.close();
 
         
     }
