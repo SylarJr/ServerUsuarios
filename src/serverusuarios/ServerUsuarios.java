@@ -39,8 +39,7 @@ public class ServerUsuarios {
                 
                 switch (op) {
                     case 1:       //caso para ingresar a la cuenta
-                                            
-                         escritor.println("Ingrese su nombre de usuario:");
+    escritor.println("Ingrese su nombre de usuario:");
     String userLogin = lectorSocket.readLine();
 
     escritor.println("Ingrese su contraseña:");
@@ -64,31 +63,39 @@ public class ServerUsuarios {
     brLogin.close();
 
     if (encontrado) {
-        escritor.println("Pudo iniciar sesion " + userLogin + " Ahora puedes chatear con el servidor, para salir escribe fin");
-       
+        escritor.println("Pudo iniciar sesion " + userLogin + ". Ahora puedes chatear con el servidor, para salir escribe fin");
 
-       
-    
-          while ((entrada = lectorSocket.readLine()) != null) {
+        while ((entrada = lectorSocket.readLine()) != null) {
             if (entrada.equalsIgnoreCase("fin")) {
-                escritor.println("Saliendo de la sesión...");
-                break; 
+                escritor.println("Saliendo de la sesion...");
+                break;
             }
 
-            
-            System.out.println(entrada); 
+           
+            File archivoChat = new File("chat_" + userLogin + ".txt");
+            BufferedWriter bw = new BufferedWriter(new FileWriter(archivoChat, true));
+            bw.write("Usuario: " + entrada);
+            bw.newLine();
+
+            System.out.println("Cliente (" + userLogin + "): " + entrada);
+
+           
             Mimensaje = teclado.readLine();
             escritor.println(Mimensaje);
+
             
+            bw.write("Servidor: " + Mimensaje);
+            bw.newLine();
+            bw.close();
         }
     } else {
         escritor.println("Usuario o contraseña incorrectos.");
     }
-      
+    break;
 
 
 
-                        break;
+                       
                 
                     case 2:       // caso para registrar se
 
