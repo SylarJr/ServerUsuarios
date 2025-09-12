@@ -39,7 +39,7 @@ public class ServerUsuarios {
                 
                 switch (op) {
                     case 1:       //caso para ingresar a la cuenta
-    escritor.println("Ingrese su nombre de usuario:");
+     escritor.println("Ingrese su nombre de usuario:");
     String userLogin = lectorSocket.readLine();
 
     escritor.println("Ingrese su contraseña:");
@@ -92,10 +92,6 @@ public class ServerUsuarios {
         escritor.println("Usuario o contraseña incorrectos.");
     }
     break;
-
-
-
-                       
                 
                     case 2:       // caso para registrar se
 
@@ -144,7 +140,32 @@ public class ServerUsuarios {
                         socketEspecial.close();
 
                         break;
+
+                     case 4: // Ver historial de un usuario
+    escritor.println("Ingrese el nombre de usuario cuyo historial desea ver:");
+    String usuarioHist = lectorSocket.readLine();
+
+    File archivoHist = new File("chat_" + usuarioHist + ".txt");
+    if (!archivoHist.exists()) {
+        escritor.println("No hay historial de chat para el usuario " + usuarioHist);
+    } else {
+        
+        BufferedReader brHist = new BufferedReader(new FileReader(archivoHist));
+        StringBuilder historialCompleto = new StringBuilder();
+        
+        while ((linea = brHist.readLine()) != null) {
+            historialCompleto.append(linea).append("\n");
+        }
+        brHist.close();
+
+       
+        escritor.println("Historial de chat con (dale enter para mostrar mensajes) " + usuarioHist + ":\n" + historialCompleto.toString());
+    
+    }
+    break;
+   
                 }
+                
 
 
             }catch (NumberFormatException e){
