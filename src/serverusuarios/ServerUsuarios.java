@@ -169,7 +169,7 @@ public class ServerUsuarios {
 
 
             }catch (NumberFormatException e){
-
+                escritor.println("Escribe caracter valido");
             }
         }
         cliente.close();
