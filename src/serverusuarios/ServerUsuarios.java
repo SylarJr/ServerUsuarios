@@ -146,27 +146,27 @@ public class ServerUsuarios {
                         break;
 
                      case 4: // Ver historial de un usuario
-    escritor.println("Ingrese el nombre de usuario cuyo historial desea ver:");
+     escritor.println("Ingrese el nombre de usuario cuyo historial desea ver::");
     String usuarioHist = lectorSocket.readLine();
 
     File archivoHist = new File("chat_" + usuarioHist + ".txt");
     if (!archivoHist.exists()) {
         escritor.println("No hay historial de chat para el usuario " + usuarioHist);
     } else {
-        
         BufferedReader brHist = new BufferedReader(new FileReader(archivoHist));
-        StringBuilder historialCompleto = new StringBuilder();
+        String lineaHist;
+        escritor.println("=== Historial de chat con " + usuarioHist + " ===");
         
-        while ((linea = brHist.readLine()) != null) {
-            historialCompleto.append(linea).append("\n");
+        while ((lineaHist = brHist.readLine()) != null) {
+            escritor.println(lineaHist);
         }
         brHist.close();
 
-       
-        escritor.println("Historial de chat con (dale enter para mostrar mensajes) " + usuarioHist + ":\n" + historialCompleto.toString());
-    
+        
+        escritor.println("FIN_HISTORIAL");
     }
-    break;
+    break; 
+  
    
                 }
                 
