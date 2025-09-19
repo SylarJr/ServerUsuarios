@@ -166,8 +166,46 @@ public class ServerUsuarios {
         escritor.println("FIN_HISTORIAL");
     }
     break; 
-  
-   
+
+   case 5: //Borrar mensajes individuales de un usuario
+        escritor.println("Ingrese el usuario cuyo historial desea borrar:");
+        String userDelete = lectorSocket.readLine();
+
+        File archivoDelete = new File("chat_" + userDelete + ".txt");
+        if (!archivoDelete.exists()) {
+            escritor.println("No hay historial para " + userDelete);
+        } else {
+            BufferedReader brDelete = new BufferedReader(new FileReader(archivoDelete));
+            StringBuilder sb = new StringBuilder();
+            String lineaDelete;
+            while ((lineaDelete = brDelete.readLine()) != null) {
+                if (!lineaDelete.contains("Usuario:")) {
+                    sb.append(lineaDelete).append(System.lineSeparator());
+                }
+            }
+            brDelete.close();
+
+            BufferedWriter bwDelete = new BufferedWriter(new FileWriter(archivoDelete));
+            bwDelete.write(sb.toString());
+            bwDelete.close();
+
+            escritor.println("Mensajes de " + userDelete + " borrados.");
+        }
+        
+        break;
+
+   case 6: // Borrar todo el historial
+                        escritor.println("Ingrese el usuario:");
+                        String userClear = lectorSocket.readLine();
+
+                        File archivoClear = new File("chat_" + userClear + ".txt");
+                        if (!archivoClear.exists()) {
+                            escritor.println("No hay historial para " + userClear);
+                        } else {
+                            new PrintWriter(archivoClear).close();
+                            escritor.println("Historial de " + userClear + " borrado completamente.");
+                        }
+                        break;
                 }
                 
 
