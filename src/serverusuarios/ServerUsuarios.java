@@ -34,6 +34,10 @@ public class ServerUsuarios {
 
         while ((entrada = lectorSocket.readLine()) != null) {
             int op= Integer.parseInt(entrada);
+             if (entrada.trim().isEmpty()) {
+        escritor.println("Ingresa un Numero, no mensajes vacios.");
+        continue;
+    }
             
             try{
                 
